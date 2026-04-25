@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Aeneas · Sliding Frames | Music · Games · Cats & Padel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Aeneas · Sliding Frames | Poster Boy (2hollis) + Sweater Weather · Roblox+Minecraft · Cats+Padel</title>
     <style>
         * {
             margin: 0;
@@ -98,6 +98,7 @@
             filter: blur(3px);
         }
 
+        /* BUTTONS PANEL */
         .buttons-panel {
             position: fixed;
             bottom: -30%;
@@ -114,6 +115,37 @@
 
         .container.animate .buttons-panel {
             bottom: 12%;
+        }
+
+        /* MOBILE / TOUCH FRIENDLY: visible button to trigger the slide (Ctrl equivalent) */
+        .mobile-trigger {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #2a1a3a, #1e2a3a);
+            border: 1px solid rgba(255,200,220,0.5);
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: #ffd9e6;
+            font-family: 'Segoe UI', monospace;
+            font-weight: bold;
+            font-size: 0.9rem;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        .mobile-trigger:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #3a2a4a, #2e2a4a);
+            border-color: #ffb7c5;
+        }
+        @media (min-width: 769px) {
+            .mobile-trigger {
+                display: flex;
+            }
         }
 
         .gradient-btn {
@@ -155,20 +187,6 @@
             height: 30px;
             object-fit: contain;
             filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
-        }
-
-        .hint {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(5px);
-            padding: 5px 14px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-family: monospace;
-            color: #aaa;
-            z-index: 99;
         }
 
         /* ========== BIG SLIDING FRAME ========== */
@@ -275,14 +293,90 @@
             font-family: 'Segoe UI', monospace;
         }
 
-        /* interests dual content: Cats + Padel special styling */
+        /* Music duo: Poster Boy (2hollis) + Sweater Weather */
+        .music-duo {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+        .track-card {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            min-width: 170px;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,180,200,0.25);
+        }
+        .track-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .track-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: linear-gradient(145deg, #f9a8d4, #fbc2c2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .track-artist {
+            font-size: 0.75rem;
+            color: #ccb;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Games duo: Roblox + Minecraft */
+        .games-duo {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+        .game-card {
+            background: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,180,200,0.25);
+        }
+        .game-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .game-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(145deg, #ffb347, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .game-tag {
+            font-size: 0.8rem;
+            color: #ccc9;
+            margin-top: 6px;
+        }
+
+        /* Interests dual content: Cats + Padel */
         .interests-duo {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             gap: 1.5rem;
+            flex-wrap: wrap;
             width: 100%;
-            text-align: center;
-            margin-top: 0.5rem;
         }
         .interest-item {
             display: flex;
@@ -293,6 +387,7 @@
             padding: 0.8rem;
             border-radius: 28px;
             border: 1px solid rgba(255,180,200,0.2);
+            min-width: 140px;
         }
         .interest-icon {
             font-size: 3rem;
@@ -306,7 +401,7 @@
             color: transparent;
         }
         .interest-desc {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #ccc9;
             letter-spacing: 0.5px;
         }
@@ -361,9 +456,17 @@
             .frame-title {
                 font-size: 1.5rem;
             }
-            .frame-logo {
-                width: 70px;
-                height: 70px;
+            .track-name {
+                font-size: 1.1rem;
+            }
+            .track-icon {
+                font-size: 2rem;
+            }
+            .game-name {
+                font-size: 1.2rem;
+            }
+            .game-icon {
+                font-size: 2.3rem;
             }
             .interest-name {
                 font-size: 1.2rem;
@@ -379,6 +482,12 @@
             .container.animate .buttons-panel {
                 bottom: 5%;
                 gap: 1rem;
+            }
+            .mobile-trigger {
+                top: 12px;
+                right: 12px;
+                padding: 6px 14px;
+                font-size: 0.8rem;
             }
         }
 
@@ -405,6 +514,9 @@
         <div class="subtitle" id="subtitle">Made by myself</div>
     </div>
 
+    <!-- VISIBLE BUTTON FOR MOBILE & DESKTOP: triggers the same "Ctrl" effect (opens menu / reveals buttons) -->
+    <button class="mobile-trigger" id="mobileCtrlTrigger">✨ OPEN MENU ✨</button>
+
     <div class="buttons-panel" id="buttonsPanel">
         <button class="gradient-btn" id="musicBtn">
             <img class="btn-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify">
@@ -419,7 +531,6 @@
             Interests
         </button>
     </div>
-    <div class="hint">✨ Press Ctrl → Then click any button ✨</div>
 </div>
 
 <!-- SLIDING FRAME -->
@@ -450,34 +561,78 @@
     }
     typeLetter();
 
-    // ========== CTRL ANIMATION ==========
+    // ========== CTRL / MOBILE TRIGGER (REVEAL BUTTONS & ANIMATION) ==========
     const container = document.getElementById("container");
     let ctrlPressed = false;
 
+    function activateReveal() {
+        if (ctrlPressed) return;
+        if (!typingFinished) return;
+        
+        ctrlPressed = true;
+        container.classList.add("animate");
+        
+        // floating particles for fun
+        for (let i = 0; i < 15; i++) {
+            let p = document.createElement("div");
+            p.style.position = "fixed";
+            p.style.width = "5px";
+            p.style.height = "5px";
+            p.style.background = `radial-gradient(circle, #ffc0cb, #f5576c)`;
+            p.style.borderRadius = "50%";
+            p.style.left = Math.random() * window.innerWidth + "px";
+            p.style.top = window.innerHeight - 50 + "px";
+            p.style.pointerEvents = "none";
+            p.style.zIndex = "999";
+            p.style.animation = "particleFloat 0.7s ease-out forwards";
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 700);
+        }
+    }
+
+    // Keyboard Ctrl handler (desktop)
     document.addEventListener("keydown", function(e) {
         if (e.key === "Control" && !ctrlPressed && typingFinished) {
             e.preventDefault();
-            ctrlPressed = true;
-            container.classList.add("animate");
-            
-            // tiny particles
-            for (let i = 0; i < 15; i++) {
-                let p = document.createElement("div");
-                p.style.position = "fixed";
-                p.style.width = "5px";
-                p.style.height = "5px";
-                p.style.background = `radial-gradient(circle, #ffc0cb, #f5576c)`;
-                p.style.borderRadius = "50%";
-                p.style.left = Math.random() * window.innerWidth + "px";
-                p.style.top = window.innerHeight - 50 + "px";
-                p.style.pointerEvents = "none";
-                p.style.zIndex = "999";
-                p.style.animation = "particleFloat 0.7s ease-out forwards";
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 700);
-            }
+            activateReveal();
         }
     });
+
+    // Mobile / "OPEN MENU" button
+    const mobileTriggerBtn = document.getElementById("mobileCtrlTrigger");
+    if (mobileTriggerBtn) {
+        mobileTriggerBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            if (!typingFinished) {
+                while (letterIndex < fullWord.length) {
+                    typedSpan.textContent += fullWord[letterIndex];
+                    letterIndex++;
+                }
+                typingFinished = true;
+            }
+            if (!ctrlPressed && typingFinished) {
+                activateReveal();
+            } else if (ctrlPressed) {
+                const alreadyHint = document.createElement("div");
+                alreadyHint.innerText = "✨ Menu already open! Tap Music, Games or Interests ✨";
+                alreadyHint.style.position = "fixed";
+                alreadyHint.style.bottom = "25%";
+                alreadyHint.style.left = "50%";
+                alreadyHint.style.transform = "translateX(-50%)";
+                alreadyHint.style.background = "#1a1a2ecc";
+                alreadyHint.style.color = "#ffbbdd";
+                alreadyHint.style.padding = "8px 18px";
+                alreadyHint.style.borderRadius = "40px";
+                alreadyHint.style.fontFamily = "monospace";
+                alreadyHint.style.fontSize = "0.8rem";
+                alreadyHint.style.backdropFilter = "blur(8px)";
+                alreadyHint.style.border = "1px solid #ff99bb";
+                alreadyHint.style.zIndex = "1000";
+                document.body.appendChild(alreadyHint);
+                setTimeout(() => alreadyHint.remove(), 1500);
+            }
+        });
+    }
 
     const particleStyle = document.createElement('style');
     particleStyle.textContent = `@keyframes particleFloat { 0% { opacity:0.8; transform: translateY(0); } 100% { opacity:0; transform: translateY(-70px); } }`;
@@ -491,40 +646,73 @@
     let currentFrameType = null;
     let isTransitioning = false;
 
-    // ----- MUSIC frame (unchanged: Spotify logo + empty) -----
+    // ----- MUSIC frame: Poster Boy by 2hollis + Sweater Weather by The Neighbourhood -----
     function getMusicContent() {
         return `
-            <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png'">
-            <div class="frame-title">Music</div>
-            <div class="empty-text">✦ empty frame ✦</div>
+            <div style="text-align: center; width: 100%;">
+                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png'">
+                <div class="frame-title">Music</div>
+                <div class="music-duo">
+                    <div class="track-card">
+                        <div class="track-icon">🎸✨</div>
+                        <div class="track-name">Poster Boy</div>
+                        <div class="track-artist">2hollis · alternative indie</div>
+                    </div>
+                    <div class="track-card">
+                        <div class="track-icon">🌧️🧣</div>
+                        <div class="track-name">Sweater Weather</div>
+                        <div class="track-artist">The Neighbourhood · chill vibes</div>
+                    </div>
+                </div>
+                <div class="empty-text">✦ currently on repeat ✦</div>
+            </div>
         `;
     }
 
-    // ----- GAMES frame (unchanged: Roblox logo + empty) -----
+    // ----- GAMES frame: ROBLOX + MINECRAFT -----
     function getGamesContent() {
         return `
-            <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="roblox" onerror="this.src='https://static.vecteezy.com/system/resources/previews/023/234/402/non_2x/roblox-logo-icon-free-png.png'">
-            <div class="frame-title">Games</div>
-            <div class="empty-text">✦ empty frame ✦</div>
+            <div style="text-align: center; width: 100%;">
+                <div style="display: flex; justify-content: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 2rem;">🎮</span>
+                </div>
+                <div class="frame-title">Games</div>
+                <div class="games-duo">
+                    <div class="game-card">
+                        <span class="game-icon">🤖</span>
+                        <div class="game-name">Roblox</div>
+                        <div class="game-tag">create · explore · social</div>
+                    </div>
+                    <div class="game-card">
+                        <span class="game-icon">⛏️</span>
+                        <div class="game-name">Minecraft</div>
+                        <div class="game-tag">build · survive · adventure</div>
+                    </div>
+                </div>
+                <div class="empty-text" style="margin-top: 0.5rem;">✦ endless worlds await ✦</div>
+            </div>
         `;
     }
 
-    // ----- INTERESTS frame: CATS + PADEL (Netflix logo replaced with custom cats&padel theme, but keep gradient style) -----
+    // ----- INTERESTS frame: CATS + PADEL -----
     function getInterestsContent() {
         return `
-            <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; width: 100%;">
-                <div class="interest-item">
-                    <div class="interest-icon">🐱</div>
-                    <div class="interest-name">Cats</div>
-                    <div class="interest-desc">fluffy · curious · midnight zoomies</div>
+            <div style="text-align: center; width: 100%;">
+                <div class="frame-title">Interests</div>
+                <div class="interests-duo">
+                    <div class="interest-item">
+                        <div class="interest-icon">🐱</div>
+                        <div class="interest-name">Cats</div>
+                        <div class="interest-desc">fluffy · curious · midnight zoomies</div>
+                    </div>
+                    <div class="interest-item">
+                        <div class="interest-icon">🎾</div>
+                        <div class="interest-name">Padel</div>
+                        <div class="interest-desc">fast · strategic · wall rallies</div>
+                    </div>
                 </div>
-                <div class="interest-item">
-                    <div class="interest-icon">🎾</div>
-                    <div class="interest-name">Padel</div>
-                    <div class="interest-desc">fast · strategic · wall rallies</div>
-                </div>
+                <div class="empty-text">✦ passions on & off court ✦</div>
             </div>
-            <div class="empty-text" style="margin-top: 0.8rem;">✦ passions on & off court ✦</div>
         `;
     }
 
@@ -532,19 +720,16 @@
     function showFrame(type) {
         if (isTransitioning) return;
         
-        // If same frame is already visible, do nothing
         if (currentFrameType === type && slidingFrame.classList.contains("active")) {
             return;
         }
         
-        // If there's a visible frame, make it exit first
         if (slidingFrame.classList.contains("active")) {
             isTransitioning = true;
             slidingFrame.classList.add("exit");
             slidingFrame.classList.remove("active");
             
             setTimeout(() => {
-                // Update content based on type (Music/Games unchanged, Interests now Cats+Padel)
                 if (type === 'music') {
                     frameInner.innerHTML = getMusicContent();
                 } else if (type === 'games') {
@@ -552,15 +737,13 @@
                 } else if (type === 'interests') {
                     frameInner.innerHTML = getInterestsContent();
                 }
-                // Remove exit class and add active to slide in
                 slidingFrame.classList.remove("exit");
-                void slidingFrame.offsetWidth; // force reflow
+                void slidingFrame.offsetWidth;
                 slidingFrame.classList.add("active");
                 currentFrameType = type;
                 isTransitioning = false;
             }, 400);
         } else {
-            // No frame visible, just slide in
             if (type === 'music') {
                 frameInner.innerHTML = getMusicContent();
             } else if (type === 'games') {
@@ -575,7 +758,6 @@
         }
     }
 
-    // Close/hide the frame
     function hideFrame() {
         if (isTransitioning) return;
         if (!slidingFrame.classList.contains("active")) return;
@@ -590,7 +772,6 @@
         }, 400);
     }
 
-    // Close button handler
     closeBtn.addEventListener("click", function(e) {
         e.stopPropagation();
         hideFrame();
@@ -602,10 +783,9 @@
     const interestsButton = document.getElementById("interestsBtn");
 
     function onButtonClick(type) {
-        // Check if Ctrl was pressed first
         if (!ctrlPressed) {
             const warning = document.createElement("div");
-            warning.innerText = "✨ Press Ctrl first to unlock the buttons ✨";
+            warning.innerText = "✨ Click 'OPEN MENU' or press Ctrl first ✨";
             warning.style.position = "fixed";
             warning.style.bottom = "30%";
             warning.style.left = "50%";
@@ -622,8 +802,6 @@
             setTimeout(() => warning.remove(), 1500);
             return;
         }
-        
-        // Show the frame for this button type
         showFrame(type);
     }
 
@@ -631,7 +809,7 @@
     gamesButton.addEventListener("click", () => onButtonClick("games"));
     interestsButton.addEventListener("click", () => onButtonClick("interests"));
 
-    // Fix any image loading errors for button logos
+    // Fix image loading errors for button logos
     const allImages = document.querySelectorAll('.btn-logo');
     allImages.forEach(img => {
         img.addEventListener('error', function() {
