@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Aeneas · Sliding Frames | Spotify · Roblox · Netflix</title>
+    <title>Aeneas · Sliding Frames | Music · Games · Cats & Padel</title>
     <style>
         * {
             margin: 0;
@@ -275,6 +275,42 @@
             font-family: 'Segoe UI', monospace;
         }
 
+        /* interests dual content: Cats + Padel special styling */
+        .interests-duo {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        .interest-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            padding: 0.8rem;
+            border-radius: 28px;
+            border: 1px solid rgba(255,180,200,0.2);
+        }
+        .interest-icon {
+            font-size: 3rem;
+        }
+        .interest-name {
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffb347, #ff6b6b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .interest-desc {
+            font-size: 0.9rem;
+            color: #ccc9;
+            letter-spacing: 0.5px;
+        }
+
         .empty-text {
             font-size: 1rem;
             color: #aaa9;
@@ -328,6 +364,12 @@
             .frame-logo {
                 width: 70px;
                 height: 70px;
+            }
+            .interest-name {
+                font-size: 1.2rem;
+            }
+            .interest-icon {
+                font-size: 2.2rem;
             }
             .gradient-btn {
                 padding: 0.6rem 1.2rem;
@@ -449,27 +491,41 @@
     let currentFrameType = null;
     let isTransitioning = false;
 
-    // Get content for each frame (EMPTY except logo + subtle placeholder)
-    function getFrameContent(type) {
-        if (type === 'music') {
-            return `
-                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png'">
-                <div class="frame-title">Music</div>
-                <div class="empty-text">✦ empty frame ✦</div>
-            `;
-        } else if (type === 'games') {
-            return `
-                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="roblox" onerror="this.src='https://static.vecteezy.com/system/resources/previews/023/234/402/non_2x/roblox-logo-icon-free-png.png'">
-                <div class="frame-title">Games</div>
-                <div class="empty-text">✦ empty frame ✦</div>
-            `;
-        } else {
-            return `
-                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="netflix" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg'">
-                <div class="frame-title">Interests</div>
-                <div class="empty-text">✦ empty frame ✦</div>
-            `;
-        }
+    // ----- MUSIC frame (unchanged: Spotify logo + empty) -----
+    function getMusicContent() {
+        return `
+            <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png'">
+            <div class="frame-title">Music</div>
+            <div class="empty-text">✦ empty frame ✦</div>
+        `;
+    }
+
+    // ----- GAMES frame (unchanged: Roblox logo + empty) -----
+    function getGamesContent() {
+        return `
+            <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="roblox" onerror="this.src='https://static.vecteezy.com/system/resources/previews/023/234/402/non_2x/roblox-logo-icon-free-png.png'">
+            <div class="frame-title">Games</div>
+            <div class="empty-text">✦ empty frame ✦</div>
+        `;
+    }
+
+    // ----- INTERESTS frame: CATS + PADEL (Netflix logo replaced with custom cats&padel theme, but keep gradient style) -----
+    function getInterestsContent() {
+        return `
+            <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; width: 100%;">
+                <div class="interest-item">
+                    <div class="interest-icon">🐱</div>
+                    <div class="interest-name">Cats</div>
+                    <div class="interest-desc">fluffy · curious · midnight zoomies</div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">🎾</div>
+                    <div class="interest-name">Padel</div>
+                    <div class="interest-desc">fast · strategic · wall rallies</div>
+                </div>
+            </div>
+            <div class="empty-text" style="margin-top: 0.8rem;">✦ passions on & off court ✦</div>
+        `;
     }
 
     // Show frame for a specific type (slides in from left)
@@ -488,8 +544,14 @@
             slidingFrame.classList.remove("active");
             
             setTimeout(() => {
-                // Update content
-                frameInner.innerHTML = getFrameContent(type);
+                // Update content based on type (Music/Games unchanged, Interests now Cats+Padel)
+                if (type === 'music') {
+                    frameInner.innerHTML = getMusicContent();
+                } else if (type === 'games') {
+                    frameInner.innerHTML = getGamesContent();
+                } else if (type === 'interests') {
+                    frameInner.innerHTML = getInterestsContent();
+                }
                 // Remove exit class and add active to slide in
                 slidingFrame.classList.remove("exit");
                 void slidingFrame.offsetWidth; // force reflow
@@ -499,7 +561,13 @@
             }, 400);
         } else {
             // No frame visible, just slide in
-            frameInner.innerHTML = getFrameContent(type);
+            if (type === 'music') {
+                frameInner.innerHTML = getMusicContent();
+            } else if (type === 'games') {
+                frameInner.innerHTML = getGamesContent();
+            } else if (type === 'interests') {
+                frameInner.innerHTML = getInterestsContent();
+            }
             slidingFrame.classList.remove("exit");
             void slidingFrame.offsetWidth;
             slidingFrame.classList.add("active");
@@ -563,7 +631,7 @@
     gamesButton.addEventListener("click", () => onButtonClick("games"));
     interestsButton.addEventListener("click", () => onButtonClick("interests"));
 
-    // Fix any image loading errors
+    // Fix any image loading errors for button logos
     const allImages = document.querySelectorAll('.btn-logo');
     allImages.forEach(img => {
         img.addEventListener('error', function() {
