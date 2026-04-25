@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Aeneas | Epic Typing Effect</title>
+    <title>Aeneas · Sliding Frames | Spotify · Roblox · Netflix</title>
     <style>
         * {
             margin: 0;
@@ -13,50 +13,55 @@
 
         body {
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background: #0a0a0a;
             font-family: 'Georgia', serif;
-            /* subtle noise texture for depth */
-            background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 32px 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* main container for vertical stacking & centering */
-        .hero {
-            text-align: center;
-            padding: 2rem;
+        .container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
         }
 
-        /* main title styling */
+        .hero {
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         .title {
-            font-size: clamp(4rem, 15vw, 12rem);
+            font-size: clamp(4rem, 15vw, 10rem);
             font-weight: bold;
-            background: linear-gradient(
-                135deg,
-                #667eea 0%,
-                #764ba2 25%,
-                #f093fb 50%,
-                #f5576c 75%,
-                #fda085 100%
-            );
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: gradientShift 4s ease infinite;
             letter-spacing: 0.05em;
-            line-height: 1.2;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
+        }
+
+        .container.animate .title {
+            font-size: 2.2rem !important;
+            transform: translate(-35vw, -38vh);
+            animation: none;
+            background: linear-gradient(135deg, #a8b9ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
             white-space: nowrap;
         }
 
-        /* wrapper for the typed text + cursor, making them inline */
         .type-wrapper {
             display: inline-flex;
             align-items: baseline;
@@ -71,14 +76,12 @@
             margin-left: 0.1em;
             animation: blink 0.8s infinite;
             vertical-align: text-bottom;
-            border-radius: 1px;
         }
 
-        /* subtitle container: initially hidden, fades in with gradient effect */
         .subtitle {
-            margin-top: 1.8rem;
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            font-family: 'Segoe UI', 'Georgia', cursive, monospace;
+            margin-top: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-family: 'Segoe UI', 'Georgia', cursive;
             font-weight: 500;
             letter-spacing: 0.1em;
             background: linear-gradient(120deg, #f6d365 0%, #fda085 40%, #c471ed 70%, #fbc2eb 100%);
@@ -86,36 +89,255 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            transition: all 0.5s ease;
+        }
+
+        .container.animate .subtitle {
             opacity: 0;
-            transform: translateY(12px);
-            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.5s ease;
-            display: inline-block;
-            text-align: center;
-            backdrop-filter: blur(2px);
-            padding: 0.1rem 0.5rem;
-            border-radius: 40px;
-            white-space: nowrap;
+            transform: translateY(80px);
+            filter: blur(3px);
         }
 
-        /* glowing reveal state */
-        .subtitle.reveal {
-            opacity: 1;
-            transform: translateY(0);
-            animation: softPulse 3s infinite, gradientShiftSub 5s ease infinite;
+        .buttons-panel {
+            position: fixed;
+            bottom: -30%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            z-index: 10;
         }
 
-        /* extra animation for subtitle gradient flow */
-        @keyframes gradientShiftSub {
+        .container.animate .buttons-panel {
+            bottom: 12%;
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, #2a1a3a, #1e2a3a, #2a1e3a);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 60px;
+            padding: 0.9rem 2rem;
+            min-width: 170px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: btnGradient 3s ease infinite;
+        }
+
+        .gradient-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+            border-color: rgba(255,200,100,0.6);
+        }
+
+        @keyframes btnGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* soft pulse + glow to emphasize the "made by myself" elegance */
-        @keyframes softPulse {
-            0% { text-shadow: 0 0 0px rgba(255, 160, 200, 0); }
-            70% { text-shadow: 0 0 6px rgba(245, 87, 108, 0.4); }
-            100% { text-shadow: 0 0 0px rgba(255, 160, 200, 0); }
+        .btn-logo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.4));
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: #aaa;
+            z-index: 99;
+        }
+
+        /* ========== BIG SLIDING FRAME ========== */
+        .frame-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .sliding-frame {
+            position: relative;
+            width: 600px;
+            max-width: 85vw;
+            min-height: 450px;
+            background: #0c0c0c;
+            border-radius: 42px;
+            padding: 6px;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.6);
+            transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.3s ease;
+            transform: translateX(-150%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sliding-frame.active {
+            transform: translateX(0) !important;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sliding-frame.exit {
+            transform: translateX(-150%) !important;
+            opacity: 0;
+            transition: transform 0.4s ease-in, opacity 0.3s;
+            pointer-events: none;
+        }
+
+        /* Black + White + Pink gradient border */
+        .sliding-frame::before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border-radius: 44px;
+            padding: 4px;
+            background: linear-gradient(125deg, 
+                #000000 0%, 
+                #3a3a3a 15%, 
+                #faf0f5 35%, 
+                #ffb6c1 55%, 
+                #ff69b4 75%, 
+                #ffffff 100%);
+            background-size: 220% 220%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderFlow 4s ease infinite;
+            pointer-events: none;
+            border-radius: 44px;
+        }
+
+        @keyframes borderFlow {
+            0% { background-position: 0% 30%; }
+            50% { background-position: 100% 70%; }
+            100% { background-position: 0% 30%; }
+        }
+
+        .frame-inner {
+            background: rgba(8, 8, 12, 0.95);
+            backdrop-filter: blur(3px);
+            border-radius: 38px;
+            padding: 2rem 1.8rem;
+            min-height: 430px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            border: 1px solid rgba(255,210,180,0.2);
+        }
+
+        .frame-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+            margin-bottom: 0.5rem;
+        }
+
+        .frame-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: linear-gradient(145deg, #f3a683, #f7d794, #ffb8d1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        .empty-text {
+            font-size: 1rem;
+            color: #aaa9;
+            letter-spacing: 1px;
+            font-style: italic;
+            border-top: 1px dashed rgba(255,255,200,0.3);
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .close-frame-btn {
+            position: absolute;
+            top: 18px;
+            right: 24px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #ffb7c5;
+            border-radius: 50px;
+            width: 38px;
+            height: 38px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffb7c5;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 25;
+            backdrop-filter: blur(4px);
+        }
+
+        .close-frame-btn:hover {
+            background: #ff4d6d;
+            color: white;
+            transform: scale(1.07);
+            border-color: white;
+        }
+
+        @media (max-width: 680px) {
+            .sliding-frame {
+                width: 90vw;
+                min-height: 380px;
+            }
+            .frame-inner {
+                padding: 1.2rem;
+                min-height: 360px;
+            }
+            .frame-title {
+                font-size: 1.5rem;
+            }
+            .frame-logo {
+                width: 70px;
+                height: 70px;
+            }
+            .gradient-btn {
+                padding: 0.6rem 1.2rem;
+                min-width: 130px;
+                font-size: 1.1rem;
+            }
+            .container.animate .buttons-panel {
+                bottom: 5%;
+                gap: 1rem;
+            }
         }
 
         @keyframes gradientShift {
@@ -128,219 +350,232 @@
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
-
-        /* responsive: on very small screens we keep centering, prevent weird break */
-        @media (max-width: 540px) {
-            .title {
-                white-space: normal;
-                word-break: keep-all;
-            }
-            .type-wrapper {
-                white-space: normal;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .subtitle {
-                white-space: normal;
-                font-size: 1.2rem;
-                letter-spacing: 0.05em;
-            }
-        }
-
-        /* decorative glow hint behind gradient text */
-        .title::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 10%, rgba(255,255,200,0.08), transparent);
-            pointer-events: none;
-        }
-
-        /* ensure relative for any pseudo effects (non-essential) */
-        .hero {
-            position: relative;
-        }
     </style>
 </head>
 <body>
+<div class="container" id="container">
     <div class="hero">
         <h1 class="title">
             <span class="type-wrapper">
-                <span id="typed-text"></span><span class="cursor" id="cursor"></span>
+                <span id="typedText"></span><span class="cursor"></span>
             </span>
         </h1>
-        <!-- subtitle element: appears with gradient effect after typing finishes -->
-        <div id="creditSubtitle" class="subtitle">Made by myself</div>
+        <div class="subtitle" id="subtitle">Made by myself</div>
     </div>
 
-    <script>
-        (function() {
-            // === Configuration ===
-            const mainWord = "Aeneas";         // word to type out
-            const typedSpan = document.getElementById("typed-text");
-            const cursorSpan = document.getElementById("cursor");
-            const subtitleEl = document.getElementById("creditSubtitle");
-            
-            let currentIndex = 0;
-            let typingTimeout = null;
+    <div class="buttons-panel" id="buttonsPanel">
+        <button class="gradient-btn" id="musicBtn">
+            <img class="btn-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify">
+            Music
+        </button>
+        <button class="gradient-btn" id="gamesBtn">
+            <img class="btn-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="roblox">
+            Games
+        </button>
+        <button class="gradient-btn" id="interestsBtn">
+            <img class="btn-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="netflix">
+            Interests
+        </button>
+    </div>
+    <div class="hint">✨ Press Ctrl → Then click any button ✨</div>
+</div>
 
-            // helper to stop cursor blinking temporarily? No need, we keep it natural.
-            // we also need to ensure after typing ends, we add slight delay and then 'reveal' subtitle
-            // with beautiful gradient effect.
+<!-- SLIDING FRAME -->
+<div class="frame-overlay" id="frameOverlay">
+    <div class="sliding-frame" id="slidingFrame">
+        <button class="close-frame-btn" id="closeFrameBtn">✕</button>
+        <div class="frame-inner" id="frameInner">
+            <!-- content injected dynamically -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // ========== TYPING EFFECT ==========
+    const fullWord = "Aeneas";
+    const typedSpan = document.getElementById("typedText");
+    let letterIndex = 0;
+    let typingFinished = false;
+
+    function typeLetter() {
+        if (letterIndex < fullWord.length) {
+            typedSpan.textContent += fullWord[letterIndex];
+            letterIndex++;
+            setTimeout(typeLetter, 115);
+        } else {
+            typingFinished = true;
+        }
+    }
+    typeLetter();
+
+    // ========== CTRL ANIMATION ==========
+    const container = document.getElementById("container");
+    let ctrlPressed = false;
+
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Control" && !ctrlPressed && typingFinished) {
+            e.preventDefault();
+            ctrlPressed = true;
+            container.classList.add("animate");
             
-            // Function that simulates typewriter effect
-            function typeNextCharacter() {
-                if (currentIndex < mainWord.length) {
-                    // Append next character
-                    typedSpan.textContent += mainWord[currentIndex];
-                    currentIndex++;
-                    // schedule next character with elegant delay (feels responsive -> 120ms but smooth)
-                    typingTimeout = setTimeout(typeNextCharacter, 130);
-                } 
-                else {
-                    // Typing finished: remove cursor after short delay or keep ? 
-                    // But requirement: after ''Aeneas'' is typed, UNDER it types in gradient with effect: "Made by myself"
-                    // We will achieve that with a graceful fade + gradient + slide effect.
-                    // cursor can either vanish or keep blinking but subtitle appears below. For elegance, we keep cursor but slight fade? 
-                    // Actually we hide cursor after typing finished to show completion? modern: keep cursor or keep blinking but subtitle appears.
-                    // To respect original design: cursor stays but subtitle reveals after a brief 200ms.
-                    if (cursorSpan) {
-                        // optional: keep cursor but we can also let it blink forever, but user sees typing done.
-                        // we keep blink as original style, no problem.
-                    }
-                    
-                    // Apply 'Made by myself' with gradient effect -> making it appear underneath.
-                    // Since element is already present, we add class 'reveal' after a small pause.
-                    // also ensure it has smooth transition and gradient background animated.
-                    setTimeout(() => {
-                        if (subtitleEl) {
-                            subtitleEl.classList.add("reveal");
-                            // additional small effect: the subtitle text will also have dynamic gradient shift
-                            // we also optionally add a micro animation to the bounding box
-                        }
-                    }, 280);   // 280ms delay gives closure to typing rhythm, feels elegant.
-                }
+            // tiny particles
+            for (let i = 0; i < 15; i++) {
+                let p = document.createElement("div");
+                p.style.position = "fixed";
+                p.style.width = "5px";
+                p.style.height = "5px";
+                p.style.background = `radial-gradient(circle, #ffc0cb, #f5576c)`;
+                p.style.borderRadius = "50%";
+                p.style.left = Math.random() * window.innerWidth + "px";
+                p.style.top = window.innerHeight - 50 + "px";
+                p.style.pointerEvents = "none";
+                p.style.zIndex = "999";
+                p.style.animation = "particleFloat 0.7s ease-out forwards";
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 700);
             }
+        }
+    });
+
+    const particleStyle = document.createElement('style');
+    particleStyle.textContent = `@keyframes particleFloat { 0% { opacity:0.8; transform: translateY(0); } 100% { opacity:0; transform: translateY(-70px); } }`;
+    document.head.appendChild(particleStyle);
+
+    // ========== FRAME LOGIC ==========
+    const slidingFrame = document.getElementById("slidingFrame");
+    const frameInner = document.getElementById("frameInner");
+    const closeBtn = document.getElementById("closeFrameBtn");
+    
+    let currentFrameType = null;
+    let isTransitioning = false;
+
+    // Get content for each frame (EMPTY except logo + subtle placeholder)
+    function getFrameContent(type) {
+        if (type === 'music') {
+            return `
+                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg" alt="spotify" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png'">
+                <div class="frame-title">Music</div>
+                <div class="empty-text">✦ empty frame ✦</div>
+            `;
+        } else if (type === 'games') {
+            return `
+                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="roblox" onerror="this.src='https://static.vecteezy.com/system/resources/previews/023/234/402/non_2x/roblox-logo-icon-free-png.png'">
+                <div class="frame-title">Games</div>
+                <div class="empty-text">✦ empty frame ✦</div>
+            `;
+        } else {
+            return `
+                <img class="frame-logo" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/netflix.svg" alt="netflix" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg'">
+                <div class="frame-title">Interests</div>
+                <div class="empty-text">✦ empty frame ✦</div>
+            `;
+        }
+    }
+
+    // Show frame for a specific type (slides in from left)
+    function showFrame(type) {
+        if (isTransitioning) return;
+        
+        // If same frame is already visible, do nothing
+        if (currentFrameType === type && slidingFrame.classList.contains("active")) {
+            return;
+        }
+        
+        // If there's a visible frame, make it exit first
+        if (slidingFrame.classList.contains("active")) {
+            isTransitioning = true;
+            slidingFrame.classList.add("exit");
+            slidingFrame.classList.remove("active");
             
-            // Ensure clean start: clear any existing text and reset timer
-            function startTyping() {
-                if (typingTimeout) {
-                    clearTimeout(typingTimeout);
-                }
-                typedSpan.textContent = "";
-                currentIndex = 0;
-                // remove reveal class from subtitle in case of any replay (if needed) but first load anyway
-                if (subtitleEl.classList.contains("reveal")) {
-                    subtitleEl.classList.remove("reveal");
-                    // force reflow to reset opacity so it stays hidden until typing finishes
-                    void subtitleEl.offsetWidth;
-                }
-                // manually ensure subtitle is hidden: opacity 0 and transform hidden
-                subtitleEl.style.opacity = "";   // reset any inline style if any; class takes precedence
-                subtitleEl.classList.remove("reveal");
-                // start typing sequence
-                typeNextCharacter();
-            }
-            
-            // Edge case: if any external factor tries to load, start.
-            startTyping();
-            
-            // optional: even if someone resizes? no need. also for extra reliability if browsers do something weird
-            // Also we can add a secondary small animation for gradient pride: ensure background clip stays for subtitle
-            // On first load ensure subtitle gradient works even before reveal but hidden is fine.
-            // Adhere to 'grat-dient' effect: subtitle uses linear-gradient with shifting animations, exactly as requirement.
-            // Extra polish: if user wants to re-run? not required, but it's stable.
-            
-            // Additionally to enhance the "gradient effect" on 'Made by myself', we have defined moving gradient background
-            // combined with background-clip:text, which makes it pop as a shiny gradient text.
-            // The reveal class triggers the animation & opacity + transform.
-            
-            // We also guarantee that after "Aeneas" is fully typed, the subtitle appears right beneath.
-            // For perfect alignment and 'under it' requirement, the subtitle div sits inside .hero after the h1.title,
-            // so it's naturally below the title, centered.
-            
-            // Bonus: persistent cursor after typing? yes, it blinks but no further characters. It looks nice.
-            // But we may decide to fade cursor after some idle time? not needed.
-            // But to respect sophisticated feel, we could add slight gentle end effect but nothing intrusive.
-            
-            // For users who want to respect 'grat-dient' as they typed: after typing it appears in gradient.
-            // Also we have ensured the main title also carries a moving gradient that keeps shifting,
-            // but the credit line also uses gradient shift + soft pulse, fulfilling gradient elegance.
-            
-            // Also we must consider any scenario where typing is interrupted? script runs once on load, perfect.
-            
-            // Additional little improvement: after subtitle appears, make the cursor span less intrusive? 
-            // But the requirement didn't ask to remove cursor, we can keep. However, we can add a gentle 
-            // transition if needed, but original design expects underlined enthusiasm. Keep cursor as is.
-            
-            // For the ultimate gradient flavor, the subtitle has background gradient animated via gradientShiftSub keyframes
-            // And also softPulse glow gives the premium "Made by myself" feel.
-            
-            // Safe to handle late font loading or rendering: everything fine.
-            // If there is any external demand for "grat-dient" wording? they wrote "grat-dient" but likely means 
-            // "gradient" + effect, So we use gradient animated text. Perfect.
-            
-            // Additionally we might manually ensure that the "Made by myself" text is not selectable in a weird way? no matter.
-            // But to enhance semantics, I'll mark subtitle text with slight uppercase/lowercase brand: "Made by myself" as given.
-            
-            // Because the user wants: "after the ''Aeneas'' is typed, under it it types in grat-dient with an effect: ''Made by myself''"
-            // It doesn't require second typing animation but it could appear as if it types in gracefully? The requirement says "types in gradient with an effect" 
-            // but the clearer reading: after Aeneas finishes, subtitle appears with gradient effect (not necessarily typewriter). However, to add extra magic,
-            // we can also make "Made by myself" have a subtle typing effect? Actually the phrase "under it it types in grat-dient with an effect" could be interpreted 
-            // that the gradient text appears or draws itself, but modern expectation: elegant fade-in with gradient is more appealing and fits 'gradient text effect'.
-            // For ultimate satisfaction, I'll add a micro letter-spacing build? but not needed because it's about the gradient animation being stunning.
-            
-            // Still, to be safe, I'll implement a *optional* subtle under-display effect? No, it's cleaner to have it reveal gracefully
-            // using the gradient sliding. The user will be impressed.
-            
-            // For maximum responsiveness and cross-browser, we also ensure clip works: -webkit-background-clip is used, fallback text color.
-            // Ensure that the main title and subtitle behave excellent.
-            
-            // also we add additional small tweak: after typing ends we might slightly glow the subtitle, 
-            // but already has softPulse.
-            
-            // Potential conflict: if javascript loads multiple times? no.
-            // Edge: on mobile any zoom? keep viewport.
-            
-            // Adding a fail-safe if any error in retrieving elements: 
-            if (!typedSpan || !cursorSpan || !subtitleEl) {
-                console.warn("missing DOM elements, but layout is standard");
-                // fallback: if typedSpan missing, use alternate approach but not needed.
-            }
-            
-            // Provide extra consistent style: after reveal, add touch of class to highlight subtle 'shine'
-            // I'll also watch for 'hover' or no.
-            // One more: requirement says "with an effect: Made by myself" – So it shows with gradient transition and perhaps slight 'glow' shift.
-            // Also we want to make sure that the main word 'Aeneas' has gradient animation, fulfilling gradient in title and subtitle separately.
-            
-            // To be amazing, I'll also add a small enhancement: The subtitle text has from 0 to 1 animation and also its background gradient shifts
-            // plus background-size large to make gradient flow. Already done.
-            
-            // Nice edge: after all, if cursor remains blinking forever on finished word, we can also keep or remove? I keep since design.
-            
-            // Code is fully self-contained, no external dependencies, vanilla.
-            
-            // For dynamic recount if somebody unexpectedly reloads, fine.
-            // Also we prefill no content so clean type each time.
-            
-            // === Additional effect: after reveal, we also set a tiny hover effect? not needed but adds wonder ===
-            // I will also ensure that the subtitle text respects 'grat-dient' as they wrote: gradient effect is undeniable.
-            
-            // Also there could be a scenario that the cursor overlaps weirdly with word on finish? No, cursor is inline-block next to typed span.
-            // It doesn't disturb.
-            // Perfect.
-            
-            // Just for fun: if subtitle needs to simulate a "typing gradient" but requirement just visual gradient with effect.
-            // I'll stick to the described best solution: after Aeneas typed, subtitle appears with moving gradient + fade + slight translation from below.
-            // And has continuous gradient shift, which is stunning.
-            
-            // Also we take care that if browser reduces motion preference we can respect but not mandatory.
-            
-            // Excellent! Ready.
-        })();
-    </script>
+            setTimeout(() => {
+                // Update content
+                frameInner.innerHTML = getFrameContent(type);
+                // Remove exit class and add active to slide in
+                slidingFrame.classList.remove("exit");
+                void slidingFrame.offsetWidth; // force reflow
+                slidingFrame.classList.add("active");
+                currentFrameType = type;
+                isTransitioning = false;
+            }, 400);
+        } else {
+            // No frame visible, just slide in
+            frameInner.innerHTML = getFrameContent(type);
+            slidingFrame.classList.remove("exit");
+            void slidingFrame.offsetWidth;
+            slidingFrame.classList.add("active");
+            currentFrameType = type;
+        }
+    }
+
+    // Close/hide the frame
+    function hideFrame() {
+        if (isTransitioning) return;
+        if (!slidingFrame.classList.contains("active")) return;
+        
+        isTransitioning = true;
+        slidingFrame.classList.add("exit");
+        slidingFrame.classList.remove("active");
+        
+        setTimeout(() => {
+            currentFrameType = null;
+            isTransitioning = false;
+        }, 400);
+    }
+
+    // Close button handler
+    closeBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        hideFrame();
+    });
+
+    // ========== BUTTON CLICK HANDLERS ==========
+    const musicButton = document.getElementById("musicBtn");
+    const gamesButton = document.getElementById("gamesBtn");
+    const interestsButton = document.getElementById("interestsBtn");
+
+    function onButtonClick(type) {
+        // Check if Ctrl was pressed first
+        if (!ctrlPressed) {
+            const warning = document.createElement("div");
+            warning.innerText = "✨ Press Ctrl first to unlock the buttons ✨";
+            warning.style.position = "fixed";
+            warning.style.bottom = "30%";
+            warning.style.left = "50%";
+            warning.style.transform = "translateX(-50%)";
+            warning.style.background = "#1a1a2ecc";
+            warning.style.color = "#ffbbdd";
+            warning.style.padding = "10px 24px";
+            warning.style.borderRadius = "40px";
+            warning.style.fontFamily = "monospace";
+            warning.style.backdropFilter = "blur(8px)";
+            warning.style.border = "1px solid #ff99bb";
+            warning.style.zIndex = "1000";
+            document.body.appendChild(warning);
+            setTimeout(() => warning.remove(), 1500);
+            return;
+        }
+        
+        // Show the frame for this button type
+        showFrame(type);
+    }
+
+    musicButton.addEventListener("click", () => onButtonClick("music"));
+    gamesButton.addEventListener("click", () => onButtonClick("games"));
+    interestsButton.addEventListener("click", () => onButtonClick("interests"));
+
+    // Fix any image loading errors
+    const allImages = document.querySelectorAll('.btn-logo');
+    allImages.forEach(img => {
+        img.addEventListener('error', function() {
+            if (this.alt === 'spotify') this.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png';
+            if (this.alt === 'roblox') this.src = 'https://cdn-icons-png.flaticon.com/512/5968/5968891.png';
+            if (this.alt === 'netflix') this.src = 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg';
+        });
+    });
+
+    // Ensure frame starts hidden
+    slidingFrame.classList.remove("active");
+    slidingFrame.classList.add("exit");
+</script>
 </body>
 </html>
