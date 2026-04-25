@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aeneas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0a0a;
+            font-family: 'Georgia', serif;
+        }
+
+        .title {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: bold;
+            background: linear-gradient(
+                135deg,
+                #667eea 0%,
+                #764ba2 25%,
+                #f093fb 50%,
+                #f5576c 75%,
+                #fda085 100%
+            );
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 4s ease infinite;
+            letter-spacing: 0.05em;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: linear-gradient(135deg, #667eea, #f5576c);
+            margin-left: 0.1em;
+            animation: blink 0.8s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">
+        <span id="text"></span><span class="cursor"></span>
+    </h1>
+
+    <script>
+        const text = "Aeneas";
+        const element = document.getElementById("text");
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                element.textContent += text[index];
+                index++;
+                setTimeout(type, 150);
+            }
+        }
+
+        type();
+    </script>
+</body>
+</html>
